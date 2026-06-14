@@ -3,10 +3,17 @@
   =================================
   • TITLE    -> Provider & Practice Directory Update Pipeline
   • SUBTITLE -> Deterministic-first, LLM-last: fixing a healthcare directory at ~$0/record — and measuring its own accuracy
-  • COVER    -> upload docs/cover.png  (or it loads from the raw GitHub URL below)
+  • COVER    -> upload docs/cover.png in the Kaggle cover-image slot
 
-  The body below is ready to paste into Kaggle's writeup editor. Images load from
-  the public repo's raw URLs, so they render without re-uploading. Solo entry, "I" voice.
+  IMAGES: the inline images below load from the repo's raw GitHub URLs, which only
+  resolve once the repo is PUBLIC. Two options:
+    (a) Make the repo public (recommended — judges need to see the code anyway), then
+        the URLs render as-is; or
+    (b) Keep it private and UPLOAD these files from docs/ directly into the Kaggle editor:
+        cover.png, architecture.png, dashboard.png (and demo.gif if wanted), replacing
+        each image URL with the uploaded one.
+
+  The body below is ready to paste into Kaggle's writeup editor. Solo entry, "I" voice.
 -->
 
 ![Provider & Practice Directory Update Pipeline](https://raw.githubusercontent.com/Marc-Dvci/Provider_and_Practice_Directory/main/docs/cover.png)
