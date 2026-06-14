@@ -1,0 +1,28 @@
+{
+  "result_count": 1,
+  "results": [
+    {
+      "number": "1938475609",
+      "enumeration_type": "NPI-1",
+      "basic": {
+        "first_name": "MARIA",
+        "last_name": "GARCIA",
+        "credential": "M.D.",
+        "status": "A"
+      },
+      "taxonomies": [
+        {"code": "207R00000X", "desc": "Internal Medicine", "primary": true, "state": "FL"}
+      ],
+      "addresses": [
+        {
+          "address_purpose": "LOCATION",
+          "address_1": "900 BAY RD",
+          "city": "NAPLES",
+          "state": "FL",
+          "postal_code": "34103",
+          "telephone_number": "239-555-4000"
+        }
+      ]
+    }
+  ]
+}

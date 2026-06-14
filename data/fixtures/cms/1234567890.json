@@ -1,0 +1,14 @@
+{
+  "results": [
+    {
+      "NPI": "1234567890",
+      "Facility Name": "ABC Heart Group",
+      "org_pac_id": "1234567801",
+      "adr_ln_1": "250 Health Park Dr",
+      "City/Town": "Fort Myers",
+      "State": "FL",
+      "ZIP Code": "33908",
+      "Telephone Number": ""
+    }
+  ]
+}

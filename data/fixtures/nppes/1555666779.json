@@ -1,0 +1,28 @@
+{
+  "result_count": 1,
+  "results": [
+    {
+      "number": "1555666779",
+      "enumeration_type": "NPI-1",
+      "basic": {
+        "first_name": "ROBERT",
+        "last_name": "LEE",
+        "credential": "M.D.",
+        "status": "I"
+      },
+      "taxonomies": [
+        {"code": "208000000X", "desc": "Pediatrics", "primary": true, "state": "FL"}
+      ],
+      "addresses": [
+        {
+          "address_purpose": "LOCATION",
+          "address_1": "75 PINE AVE",
+          "city": "NAPLES",
+          "state": "FL",
+          "postal_code": "34102",
+          "telephone_number": "239-555-3000"
+        }
+      ]
+    }
+  ]
+}

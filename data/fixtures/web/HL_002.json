@@ -1,0 +1,15 @@
+{
+  "provider_id": "HL_002",
+  "sources": [
+    {
+      "source_name": "practice_web",
+      "source_label": "Practice Website",
+      "source_class": "practice_web",
+      "url": "https://gulfcoastfamilycare.example.com",
+      "fields": {
+        "phone": {"value": "239-555-7777"},
+        "address": {"value": "501 Healthpark Blvd, Fort Myers, FL 33908"}
+      }
+    }
+  ]
+}

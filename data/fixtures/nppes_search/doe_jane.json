@@ -1,0 +1,28 @@
+{
+  "result_count": 1,
+  "results": [
+    {
+      "number": "1002003006",
+      "enumeration_type": "NPI-1",
+      "basic": {
+        "first_name": "JANE",
+        "last_name": "DOE",
+        "credential": "N.P.",
+        "status": "A"
+      },
+      "taxonomies": [
+        {"code": "207Q00000X", "desc": "Family Medicine", "primary": true, "state": "FL"}
+      ],
+      "addresses": [
+        {
+          "address_purpose": "LOCATION",
+          "address_1": "501 HEALTHPARK BLVD",
+          "city": "FORT MYERS",
+          "state": "FL",
+          "postal_code": "33908",
+          "telephone_number": "239-555-7777"
+        }
+      ]
+    }
+  ]
+}

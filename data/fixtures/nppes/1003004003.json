@@ -1,0 +1,27 @@
+{
+  "result_count": 1,
+  "results": [
+    {
+      "number": "1003004003",
+      "enumeration_type": "NPI-2",
+      "basic": {
+        "organization_name": "GULF COAST WOMEN'S HEALTH",
+        "status": "A",
+        "last_updated": "2026-04-18"
+      },
+      "taxonomies": [
+        {"code": "207V00000X", "desc": "Obstetrics & Gynecology", "primary": true, "state": "FL"}
+      ],
+      "addresses": [
+        {
+          "address_purpose": "LOCATION",
+          "address_1": "3300 PINE RIDGE RD",
+          "city": "NAPLES",
+          "state": "FL",
+          "postal_code": "341090000",
+          "telephone_number": "239-555-6100"
+        }
+      ]
+    }
+  ]
+}

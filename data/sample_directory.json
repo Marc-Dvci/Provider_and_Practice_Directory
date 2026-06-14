@@ -1,0 +1,77 @@
+{
+  "description": "Sample HealthLynked-style directory snapshot used by the demo and tests. HL_001 mirrors the challenge brief's example record (NPI 1234567890 is the brief's placeholder and intentionally fails the Luhn check digit). HL_006 is a Type-2 organization/practice record (the practice-directory half of the brief): the practice has relocated.",
+  "records": [
+    {
+      "provider_id": "HL_001",
+      "provider_name": "John Smith, MD",
+      "npi": "1234567890",
+      "specialty": "Cardiology",
+      "practice_name": "ABC Heart Group",
+      "address": "100 Main St, Naples, FL 34102",
+      "phone": "239-555-1234",
+      "website": "https://abcheart.example.com",
+      "active": true,
+      "last_verified_date": "2023-09-01"
+    },
+    {
+      "provider_id": "HL_002",
+      "provider_name": "Jane A Doe, NP",
+      "npi": null,
+      "specialty": "Family Medicine",
+      "practice_name": "Gulf Coast Family Care",
+      "address": "300 1st St, Fort Myers, FL 33901",
+      "phone": "239-555-2000",
+      "website": null,
+      "active": true,
+      "last_verified_date": "2022-05-15"
+    },
+    {
+      "provider_id": "HL_003",
+      "provider_name": "John Smith M.D.",
+      "npi": "1234567890",
+      "specialty": "Cardiology",
+      "practice_name": "ABC Heart Group",
+      "address": "100 Main Street, Suite 2, Naples, FL 34102",
+      "phone": "239-555-1234",
+      "website": "https://abcheart.example.com",
+      "active": true,
+      "last_verified_date": "2023-09-01"
+    },
+    {
+      "provider_id": "HL_004",
+      "provider_name": "Robert Lee, MD",
+      "npi": "1555666779",
+      "specialty": "Pediatrics",
+      "practice_name": "Sunset Pediatrics",
+      "address": "75 Pine Ave, Naples, FL 34102",
+      "phone": "239-555-3000",
+      "website": null,
+      "active": true,
+      "last_verified_date": "2021-01-10"
+    },
+    {
+      "provider_id": "HL_005",
+      "provider_name": "Maria Garcia, MD",
+      "npi": "1938475609",
+      "specialty": "Internal Medicine",
+      "practice_name": "Bayfront Internal Medicine",
+      "address": "900 Bay Rd, Naples, FL 34103",
+      "phone": "239-555-4000",
+      "website": null,
+      "active": true,
+      "last_verified_date": "2026-03-01"
+    },
+    {
+      "provider_id": "HL_006",
+      "provider_name": null,
+      "npi": "1003004003",
+      "specialty": null,
+      "practice_name": "Gulf Coast Women's Health",
+      "address": "850 6th Ave N, Naples, FL 34102",
+      "phone": "239-555-6000",
+      "website": null,
+      "active": true,
+      "last_verified_date": "2022-11-01"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "provider_id": "HL_004",
+  "sources": [
+    {
+      "source_name": "state_board",
+      "source_label": "State Medical Board",
+      "source_class": "regulatory_board",
+      "url": "https://flboardofmedicine.example.gov/verify",
+      "fields": {
+        "active": {"value": "inactive", "note": "License status: Expired"}
+      }
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+code,specialty
+207Q00000X,Family Medicine
+207QA0505X,Family Medicine - Adult Medicine
+207R00000X,Internal Medicine
+207RC0000X,Cardiology
+207RC0001X,Clinical Cardiac Electrophysiology
+207RI0011X,Interventional Cardiology
+207RG0100X,Gastroenterology
+207RH0000X,Hematology
+207RH0003X,Hematology & Oncology
+207RX0202X,Medical Oncology
+207RN0300X,Nephrology
+207RE0101X,Endocrinology
+207RP1001X,Pulmonary Disease
+207RR0500X,Rheumatology
+207RI0200X,Infectious Disease
+207RG0300X,Geriatric Medicine
+208000000X,Pediatrics
+208D00000X,General Practice
+207V00000X,Obstetrics & Gynecology
+207VG0400X,Gynecology
+207VX0201X,Gynecologic Oncology
+207VM0101X,Maternal & Fetal Medicine
+207W00000X,Ophthalmology
+207X00000X,Orthopaedic Surgery
+207Y00000X,Otolaryngology
+2085R0202X,Diagnostic Radiology
+2085R0001X,Radiation Oncology
+207L00000X,Anesthesiology
+208600000X,Surgery
+208200000X,Plastic Surgery
+207N00000X,Dermatology
+207P00000X,Emergency Medicine
+207T00000X,Neurological Surgery
+2084N0400X,Neurology
+2084P0800X,Psychiatry
+207U00000X,Nuclear Medicine
+208100000X,Physical Medicine & Rehabilitation
+363L00000X,Nurse Practitioner
+363LF0000X,Nurse Practitioner - Family
+363LA2200X,Nurse Practitioner - Adult Health
+363A00000X,Physician Assistant
+122300000X,Dentist
+1223G0001X,Dentist - General Practice
+152W00000X,Optometrist
+111N00000X,Chiropractor
+213E00000X,Podiatrist
+367500000X,Certified Registered Nurse Anesthetist

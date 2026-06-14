@@ -1,0 +1,44 @@
+{
+  "description": "Labeled backtest cases. Offline stand-in for two consecutive NPPES/CMS snapshots: the sample directory is the 'as-of-T' input, and 'truth' is what a later snapshot revealed actually changed. In production this file is generated automatically by diffing real historical snapshots (NBER NPPES mirror); the metric code in backtest.py is identical either way.",
+  "use_sample_directory": true,
+  "truth": {
+    "HL_001": {
+      "changes": {
+        "phone": "239-555-9000",
+        "address": "250 Health Park Dr, Fort Myers, FL 33908"
+      },
+      "expected_action": "human_review"
+    },
+    "HL_002": {
+      "changes": {
+        "phone": "239-555-7777",
+        "address": "501 Healthpark Blvd, Fort Myers, FL 33908"
+      },
+      "expected_action": "auto_update"
+    },
+    "HL_003": {
+      "changes": {
+        "phone": "239-555-9000",
+        "address": "250 Health Park Dr, Fort Myers, FL 33908"
+      },
+      "expected_action": "human_review"
+    },
+    "HL_004": {
+      "changes": {
+        "active": "Inactive"
+      },
+      "expected_action": "human_review"
+    },
+    "HL_005": {
+      "changes": {},
+      "expected_action": "no_change"
+    },
+    "HL_006": {
+      "changes": {
+        "phone": "239-555-6100",
+        "address": "3300 Pine Ridge Rd, Naples, FL 34109"
+      },
+      "expected_action": "auto_update"
+    }
+  }
+}
