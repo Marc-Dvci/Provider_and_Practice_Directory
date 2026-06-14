@@ -65,7 +65,15 @@ p.append(f'<rect x="0" y="8" width="{W}" height="{H - 8}" fill="url(#wash)"/>')
 
 # ---- left: text column ----
 LX = 96
-text(LX, 196, "HEALTHLYNKED  ·  PROVIDER & PRACTICE DIRECTORY CHALLENGE", 17, GREEN, 700, spacing="1.5")
+text(
+    LX,
+    196,
+    "HEALTHLYNKED  ·  PROVIDER & PRACTICE DIRECTORY CHALLENGE",
+    17,
+    GREEN,
+    700,
+    spacing="1.5",
+)
 text(LX, 270, "Provider & Practice", 58, INK, 800)
 text(LX, 338, "Directory Update Pipeline", 58, INK, 800)
 text(LX, 396, "A repeatable, cost-efficient pipeline that keeps a healthcare", 23, SLATE, 400)
@@ -74,7 +82,9 @@ text(LX, 428, "directory accurate — and measures its own accuracy.", 23, SLATE
 # thesis line
 text(LX, 486, "Deterministic-first, LLM-last.", 20, GREEN2, 700)
 text(LX, 516, "Most updates already sit in free U.S. government data, so the bulk", 20, SLATE, 400)
-text(LX, 544, "resolves at ~$0 — only the residual reaches an LLM, scrape, or human.", 20, SLATE, 400)
+text(
+    LX, 544, "resolves at ~$0 — only the residual reaches an LLM, scrape, or human.", 20, SLATE, 400
+)
 
 # stat chips (two rows)
 c1 = chip(LX, 588, "≈ $0 per record on the hot path", GREEN, "#e8f7ef")
@@ -98,7 +108,7 @@ def fwidth(y: float) -> float:
 # funnel silhouette
 p.append(
     f'<path d="M {CXR - top_w / 2} {y0} H {CXR + top_w / 2} '
-    f"L {CXR + bot_w / 2} {y1} H {CXR - bot_w / 2} Z\" "
+    f'L {CXR + bot_w / 2} {y1} H {CXR - bot_w / 2} Z" '
     f'fill="{FUNNEL_BG}"/>'
 )
 text(CXR, y0 - 16, "every directory record", 16, MUTE, 600, anchor="middle")
@@ -117,8 +127,15 @@ for by, label, color in bands:
 for ty, tag in ((280, "100% — free"), (450, "~10% residual"), (535, "≈3–5%")):
     text(CXR - top_w / 2 - 22, ty, tag, 15.5, MUTE, 600, anchor="end")
 
-text(CXR, y1 + 34, "route each record only as far down the cost gradient as it needs to go",
-     16, SLATE, 500, anchor="middle")
+text(
+    CXR,
+    y1 + 34,
+    "route each record only as far down the cost gradient as it needs to go",
+    16,
+    SLATE,
+    500,
+    anchor="middle",
+)
 
 svg = f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}"
      font-family="'Segoe UI', Helvetica, Arial, sans-serif">
@@ -167,9 +184,16 @@ if chrome:
     png = DOCS / "cover.png"
     subprocess.run(
         [
-            chrome, "--headless=new", "--no-sandbox", "--disable-gpu", "--hide-scrollbars",
-            "--force-device-scale-factor=2", f"--user-data-dir={DOCS / '_chrome'}",
-            f"--window-size={W},{H}", f"--screenshot={png}", wrapper.as_uri(),
+            chrome,
+            "--headless=new",
+            "--no-sandbox",
+            "--disable-gpu",
+            "--hide-scrollbars",
+            "--force-device-scale-factor=2",
+            f"--user-data-dir={DOCS / '_chrome'}",
+            f"--window-size={W},{H}",
+            f"--screenshot={png}",
+            wrapper.as_uri(),
         ],
         check=False,
     )
