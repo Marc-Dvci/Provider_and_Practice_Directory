@@ -329,16 +329,14 @@ class WebsiteDiscoverySource:
             )
 
         candidate_phone = normalize_phone(fields.get("phone")).canonical
-        if (
-            candidate_phone
-            and candidate_phone in self._phone_targets(record, nppes_provider, cms_record)
+        if candidate_phone and candidate_phone in self._phone_targets(
+            record, nppes_provider, cms_record
         ):
             evidence.append(DiscoveryEvidence("phone_match", 0.18, fields["phone"]))
 
         candidate_address = normalize_address(fields.get("address")).canonical
-        if (
-            candidate_address
-            and candidate_address in self._address_targets(record, nppes_provider, cms_record)
+        if candidate_address and candidate_address in self._address_targets(
+            record, nppes_provider, cms_record
         ):
             evidence.append(DiscoveryEvidence("address_match", 0.20, fields["address"]))
 
@@ -374,9 +372,7 @@ class WebsiteDiscoverySource:
         return {v for v in (normalize_practice_name(n) for n in names) if v}
 
     @staticmethod
-    def _provider_targets(
-        record: ProviderRecord, nppes_provider: NppesProvider | None
-    ) -> set[str]:
+    def _provider_targets(record: ProviderRecord, nppes_provider: NppesProvider | None) -> set[str]:
         names = [normalize_name(record.provider_name).canonical]
         if nppes_provider is not None and not getattr(nppes_provider, "is_organization", False):
             names.append(nppes_provider.normalized_name().canonical)
