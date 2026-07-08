@@ -159,11 +159,19 @@ class Pipeline:
         sources: list[SourceValue] = []
         if resolution.provider is not None:
             sources.extend(self.nppes.to_source_values(resolution.provider))
+        cms_record = None
         if record.npi:
             cms_record = self.cms.fetch(record.npi)
             if cms_record is not None:
                 sources.extend(self.cms.to_source_values(cms_record))
-        sources.extend(self.web.harvest(record.provider_id))
+        sources.extend(
+            self.web.harvest(
+                record.provider_id,
+                record=record,
+                nppes_provider=resolution.provider,
+                cms_record=cms_record,
+            )
+        )
 
         grouped: dict[str, list[SourceValue]] = defaultdict(list)
         for sv in sources:

@@ -4,6 +4,7 @@
 |---|---|
 | [`Proposal.pdf`](Proposal.pdf) | The polished proposal (Option C) for judges. |
 | [`PROPOSAL.md`](PROPOSAL.md) | Markdown source of the proposal. |
+| [`SOURCE_IDENTIFICATION.md`](SOURCE_IDENTIFICATION.md) | How sparse provider clues become a verified practice-website URL. |
 | [`architecture.svg`](architecture.svg) / [`architecture.png`](architecture.png) | Agent-workflow diagram. |
 | [`dashboard.png`](dashboard.png) | Human-review dashboard screen (used in the PDF). |
 | [`demo.gif`](demo.gif) | Animated terminal recording of `directory-pipeline demo`. |

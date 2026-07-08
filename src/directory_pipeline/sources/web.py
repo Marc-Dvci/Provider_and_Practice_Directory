@@ -5,18 +5,20 @@ lookups (the board) — the only paid/effortful tier, reached only for records t
 free tiers couldn't resolve. The LLM *extracts* values from fetched page text and
 never invents them; the extracted value must still clear the scoring gate.
 
-Here, to keep the demo deterministic and offline, this source reads pre-captured
-extractions from ``data/fixtures/web/{provider_id}.json``. The fixture shape mirrors
-what the production extractor would emit, so the rest of the pipeline is identical.
+Here, to keep the demo deterministic and offline, this source reads either
+pre-captured extractions from ``data/fixtures/web/{provider_id}.json`` or discovered
+website candidates from ``data/fixtures/web_discovery/{provider_id}.json``. The
+fixture shapes mirror what licensed search + extraction providers would emit, so
+the rest of the pipeline is identical.
 """
 
 from __future__ import annotations
 
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from directory_pipeline.config import Settings
 from directory_pipeline.logging_config import get_logger
-from directory_pipeline.models import SourceClass, SourceValue
+from directory_pipeline.models import ProviderRecord, SourceClass, SourceValue
 from directory_pipeline.normalize import (
     normalize_active,
     normalize_address,
@@ -24,6 +26,11 @@ from directory_pipeline.normalize import (
     normalize_practice_name,
 )
 from directory_pipeline.sources.base import load_fixture, snapshot_hash, utcnow
+from directory_pipeline.sources.web_discovery import WebsiteDiscoverySource
+
+if TYPE_CHECKING:
+    from directory_pipeline.sources.cms import CmsRecord
+    from directory_pipeline.sources.nppes import NppesProvider
 
 log = get_logger("sources.web")
 
@@ -39,11 +46,31 @@ _NORMALIZERS = {
 class WebSource:
     """Residual corroborator. Offline-only here; production would scrape + extract."""
 
-    def __init__(self, settings: Settings | None = None) -> None:
+    def __init__(
+        self,
+        settings: Settings | None = None,
+        discovery: WebsiteDiscoverySource | None = None,
+    ) -> None:
         self.settings = settings or Settings.from_env()
+        self.discovery = discovery or WebsiteDiscoverySource(self.settings)
 
-    def harvest(self, provider_id: str) -> list[SourceValue]:
+    def harvest(
+        self,
+        provider_id: str,
+        *,
+        record: ProviderRecord | None = None,
+        nppes_provider: NppesProvider | None = None,
+        cms_record: CmsRecord | None = None,
+    ) -> list[SourceValue]:
         payload = self._load(provider_id)
+        if payload is None and record is not None:
+            result = self.discovery.discover(
+                provider_id,
+                record=record,
+                nppes_provider=nppes_provider,
+                cms_record=cms_record,
+            )
+            payload = self.discovery.to_web_payload(result)
         if not payload:
             return []
         retrieved_at = utcnow()

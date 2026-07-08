@@ -1,0 +1,39 @@
+{
+  "provider_id": "HL_001",
+  "candidates": [
+    {
+      "url": "https://www.healthgrades.com/physician/dr-john-smith",
+      "source": "licensed_search_api",
+      "fields": {
+        "practice_name": "ABC Heart Group",
+        "provider_names": ["John Smith, MD"],
+        "address": "250 Health Park Dr, Fort Myers, FL 33908",
+        "phone": "239-555-9000",
+        "page_text": "John Smith MD cardiology ABC Heart Group"
+      }
+    },
+    {
+      "url": "https://abcheart.example.com",
+      "source": "places_details",
+      "fields": {
+        "practice_name": "ABC Heart Group",
+        "provider_names": ["John Smith, MD"],
+        "npi": "1234567890",
+        "address": "250 Health Park Dr, Fort Myers, FL 33908",
+        "phone": "239-555-9000",
+        "page_text": "ABC Heart Group locations. John Smith MD. Fort Myers cardiology."
+      }
+    },
+    {
+      "url": "https://miamiorthopedics.example.com",
+      "source": "web_search",
+      "fields": {
+        "practice_name": "Miami Orthopedics",
+        "provider_names": ["Jonathan Smythe, DO"],
+        "address": "1 Ocean Dr, Miami, FL 33139",
+        "phone": "305-555-1000",
+        "page_text": "Orthopedics Miami"
+      }
+    }
+  ]
+}

@@ -15,5 +15,22 @@ from __future__ import annotations
 from directory_pipeline.sources.cms import CmsSource
 from directory_pipeline.sources.nppes import NppesProvider, NppesSource
 from directory_pipeline.sources.web import WebSource
+from directory_pipeline.sources.web_discovery import (
+    FixtureWebsiteCandidateProvider,
+    JsonEndpointWebsiteCandidateProvider,
+    WebsiteCandidateProvider,
+    WebsiteDiscoverySource,
+    WebsiteSearchQuery,
+)
 
-__all__ = ["CmsSource", "NppesProvider", "NppesSource", "WebSource"]
+__all__ = [
+    "CmsSource",
+    "FixtureWebsiteCandidateProvider",
+    "JsonEndpointWebsiteCandidateProvider",
+    "NppesProvider",
+    "NppesSource",
+    "WebSource",
+    "WebsiteCandidateProvider",
+    "WebsiteDiscoverySource",
+    "WebsiteSearchQuery",
+]

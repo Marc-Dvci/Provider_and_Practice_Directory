@@ -1,0 +1,27 @@
+{
+  "provider_id": "HL_005",
+  "candidates": [
+    {
+      "url": "https://npiprofile.com/npi/1938475609",
+      "source": "web_search",
+      "fields": {
+        "practice_name": "Bayfront Internal Medicine",
+        "provider_names": ["Maria Garcia, MD"],
+        "npi": "1938475609",
+        "address": "900 Bay Rd, Naples, FL 34103",
+        "phone": "239-555-4000"
+      }
+    },
+    {
+      "url": "https://bayfrontinternal.example.com",
+      "source": "places_details",
+      "fields": {
+        "practice_name": "Bayfront Internal Medicine",
+        "provider_names": ["Maria Garcia, MD"],
+        "address": "900 Bay Rd, Naples, FL 34103",
+        "phone": "239-555-4000",
+        "page_text": "Bayfront Internal Medicine. Maria Garcia MD. Naples FL."
+      }
+    }
+  ]
+}

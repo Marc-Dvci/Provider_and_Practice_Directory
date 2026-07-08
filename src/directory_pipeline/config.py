@@ -55,6 +55,9 @@ class Settings:
     cache_dir: Path = DATA_DIR / "cache"
     audit_path: Path = Path("audit_log.jsonl")
     fixtures_dir: Path = FIXTURES_DIR
+    website_search_base_url: str | None = None
+    website_search_api_key: str | None = None
+    website_search_top_k: int = 8
 
     @classmethod
     def from_env(cls) -> Settings:
@@ -68,6 +71,11 @@ class Settings:
             http_cache=_env_bool("DIRPIPE_HTTP_CACHE", cls.http_cache),
             http_cache_ttl=float(os.environ.get("DIRPIPE_HTTP_CACHE_TTL", cls.http_cache_ttl)),
             audit_path=Path(os.environ.get("DIRPIPE_AUDIT_PATH", str(cls.audit_path))),
+            website_search_base_url=os.environ.get("DIRPIPE_WEBSITE_SEARCH_BASE_URL") or None,
+            website_search_api_key=os.environ.get("DIRPIPE_WEBSITE_SEARCH_API_KEY") or None,
+            website_search_top_k=int(
+                os.environ.get("DIRPIPE_WEBSITE_SEARCH_TOP_K", cls.website_search_top_k)
+            ),
         )
 
 

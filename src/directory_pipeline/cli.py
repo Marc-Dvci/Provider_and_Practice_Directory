@@ -2,6 +2,7 @@
 
 directory-pipeline demo                 # offline, end-to-end showcase
 directory-pipeline run [--input F]      # reconcile a directory, emit JSON
+directory-pipeline discover-site        # verify an official practice website URL
 directory-pipeline backtest             # measured precision / calibration
 directory-pipeline dashboard            # how to launch the review UI
 """
@@ -22,6 +23,7 @@ from directory_pipeline.ingest import load_directory
 from directory_pipeline.logging_config import configure_logging
 from directory_pipeline.models import RecommendedAction
 from directory_pipeline.pipeline import Pipeline, PipelineResult
+from directory_pipeline.sources import CmsSource, NppesSource, WebsiteDiscoverySource
 from directory_pipeline.triage import build_verify_queue
 
 _ACTION_GLYPH = {
@@ -160,6 +162,46 @@ def _cmd_triage(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_discover_site(args: argparse.Namespace) -> int:
+    settings = _build_settings(args)
+    records = load_directory(args.input)
+    matches = [r for r in records if r.provider_id == args.record]
+    if not matches:
+        print(f"No record with provider_id={args.record!r}", file=sys.stderr)
+        return 2
+
+    record = matches[0]
+    nppes = NppesSource(settings)
+    cms = CmsSource(settings)
+    nppes_provider = nppes.fetch(record.npi) if record.npi else None
+    cms_record = cms.fetch(record.npi) if record.npi else None
+    result = WebsiteDiscoverySource(settings).discover(
+        record.provider_id,
+        record=record,
+        nppes_provider=nppes_provider,
+        cms_record=cms_record,
+    )
+    if result is None:
+        print(f"No website candidates found for {record.provider_id}")
+        return 1
+    if args.json:
+        payload = {
+            "provider_id": result.provider_id,
+            "url": result.url,
+            "status": result.status,
+            "score": result.score,
+            "evidence": [dataclasses.asdict(e) for e in result.evidence],
+        }
+        print(json.dumps(payload, indent=2))
+        return 0
+
+    print(f"{record.provider_id}: {result.url}")
+    print(f"    status: {result.status}  score: {result.score:.2f}")
+    for evidence in result.evidence:
+        print(f"    evidence: {evidence.label} ({evidence.points:+.2f}) {evidence.detail}")
+    return 0
+
+
 def _cmd_backtest(args: argparse.Namespace) -> int:
     if args.scale:
         print(
@@ -202,6 +244,18 @@ def build_parser() -> argparse.ArgumentParser:
     tri = sub.add_parser("triage", help="rank records by re-verification risk")
     tri.add_argument("--input", help="path to a directory JSON file (default: sample)")
     tri.set_defaults(func=_cmd_triage)
+
+    discover = sub.add_parser(
+        "discover-site",
+        help="find and verify a likely official practice website for one record",
+    )
+    discover.add_argument("--input", help="path to a directory JSON file (default: sample)")
+    discover.add_argument("--record", required=True, help="provider_id to discover")
+    discover.add_argument(
+        "--offline", action="store_true", help="use bundled candidates, no network"
+    )
+    discover.add_argument("--json", action="store_true", help="emit JSON instead of a summary")
+    discover.set_defaults(func=_cmd_discover_site)
 
     bt = sub.add_parser("backtest", help="measured precision/recall + calibration")
     bt.add_argument("--cases", help="path to a labeled backtest cases file")

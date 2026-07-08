@@ -43,6 +43,18 @@ def test_high_risk_active_never_silent(pipeline, records_by_id):
     assert any(c.field == "active" for c in result.recommendation.changes)
 
 
+def test_pipeline_uses_discovered_practice_website(pipeline, records_by_id):
+    result = pipeline.process_record(records_by_id["HL_005"])
+    discovered_phone_sources = [
+        sv
+        for sv in result.field_sources.get("phone", [])
+        if sv.source_name == "practice_web_discovered"
+    ]
+    assert discovered_phone_sources
+    assert discovered_phone_sources[0].url == "https://bayfrontinternal.example.com"
+    assert result.recommendation.recommended_action == RecommendedAction.NO_CHANGE
+
+
 def test_duplicate_detection(pipeline, directory):
     clusters = pipeline.duplicates(directory)
     assert len(clusters) == 1

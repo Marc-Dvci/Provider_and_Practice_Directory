@@ -78,10 +78,30 @@ feature — it is what makes the system cheap and reproducible.
 | **US Census Geocoder** | Address standardization/validation + coordinates. | Free API (no key) | $0 |
 | **State medical boards** | License status (active/inactive/disciplinary). | Per-state scrape | scrape only |
 | **Practice website** | Current phone/address/roster — strong corroborator. | Scrape + LLM (Tier 3 only) | $ (residual only) |
+| **Licensed search / Places adapter** | Finds the likely official practice website URL from sparse clues. | Configurable proxy (`DIRPIPE_WEBSITE_SEARCH_*`) | gated |
 
 Paid vendors (Google Places, Melissa, commercial provider data) are deliberately
 **avoided** on the default path — they are the easy way to blow the cost budget the
 brief explicitly penalizes.
+
+### Source identification: finding the practice website
+
+The pipeline does not assume the practice URL is already known. Before scraping or
+LLM extraction, `WebsiteDiscoverySource` builds a search packet from exactly the
+fields HealthLynked is likely to have: provider name, NPI, current/old address,
+phone, specialty, CMS practice name, and Type-2 NPPES organization clues. A licensed
+search adapter returns candidate URLs; the deterministic verifier then promotes a
+site only when the page/domain proves it belongs to the provider or practice.
+
+Evidence includes provider roster match, practice-name match, NPI on page, phone
+match, address match, structured page text, and penalties for aggregators such as
+generic profile directories. Verified candidates become `practice_web` source
+values and still pass through the same confidence/corroboration gate as every other
+source. Ambiguous candidates go to review rather than being trusted.
+
+This directly handles the source-identification problem: NPPES/CMS are used as
+identity and search seeds, not as the final source of truth for current address,
+phone, or roster data.
 
 ---
 
@@ -258,10 +278,10 @@ reproducible and defensible months later.
 
 | Phase | Weeks | Deliverable |
 |---|---|---|
-| **0 — MVP (this submission)** | — | Runnable funnel, schema-compliant output, audit log, dashboard, backtest. |
+| **0 — MVP (this submission)** | — | Runnable funnel, source-identification verifier, schema-compliant output, audit log, dashboard, backtest. |
 | **1 — Structured backbone** | 1–4 | Bulk NPPES+CMS ingestion; full-directory monthly reconcile; backtest harness on real snapshots from day one. |
 | **2 — Matching & triage** | 4–8 | Splink dedup/movement in production; risk-based triage; weekly incrementals + deactivation diffs. |
-| **3 — Residual enrichment** | 8–12 | Gated Tier-3 agent (web/board) with budget caps + caching; dashboard live; threshold tuning from reviewer labels. |
+| **3 — Residual enrichment** | 8–12 | Licensed search adapter live, gated Tier-3 web/board extraction with budget caps + caching; dashboard live; threshold tuning from reviewer labels. |
 
 **KPIs, measured continuously by the backtest:** auto-update precision ≥ 99% on the
 production threshold, human-review ≤ 5%, cost ≤ $0.05/record, freshness within the

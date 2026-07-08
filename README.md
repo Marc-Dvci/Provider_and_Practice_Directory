@@ -46,6 +46,9 @@ directory-pipeline run --offline --json --output recommendations.json
 # Process a single record
 directory-pipeline run --offline --record HL_001
 
+# Show how sparse clues become a verified practice website URL
+directory-pipeline discover-site --offline --record HL_001 --json
+
 # Triage: rank records by re-verification risk (the cost lever)
 directory-pipeline triage
 
@@ -89,18 +92,23 @@ Then, for each record the pipeline runs the deterministic-first funnel:
    address, phone, deactivation; Type-1 providers **and** Type-2 practices) and CMS
    Doctors & Clinicians (affiliation, practice locations). The gated practice-website
    / state-board corroborator is consulted only for the residual.
-3. **Normalize** (`normalize.py`) — addresses → canonical components (suite handled
+3. **Discover the practice website** (`sources/web_discovery.py`) — when the URL is
+   missing, build search queries from name, NPI, old/current address, phone, CMS
+   practice name, and Type-2 NPPES organization clues; a licensed search/Places
+   adapter returns candidate URLs, then deterministic evidence scoring verifies the
+   official site before it can become `practice_web` evidence.
+4. **Normalize** (`normalize.py`) — addresses → canonical components (suite handled
    separately), phones → E.164, specialties → NUCC taxonomy codes, names → structured
    parts. Comparison is equality on canonical forms, so formatting never looks like a
    change.
-4. **Geocode** (`sources/census.py`) — the effective address is validated/standardized
+5. **Geocode** (`sources/census.py`) — the effective address is validated/standardized
    against the free US Census geocoder; coordinates feed the audit trail and
    practice-location matching.
-5. **Score & decide** (`scoring.py`) — a source-weighted confidence per field, with
+6. **Score & decide** (`scoring.py`) — a source-weighted confidence per field, with
    independence-aware corroboration, conflict detection, and a high-risk *dissent*
    safety net (a credible inactive/closure signal is never silently left stale), then
    safe-update rules by field risk class.
-6. **Audit** (`audit.py`) — every proposal writes an immutable, content-hashed event
+7. **Audit** (`audit.py`) — every proposal writes an immutable, content-hashed event
    linking old→new, the supporting source snapshots, geocode, and the scoring math.
 
 The pipeline also emits **lifecycle signals** — provider movement / practice
@@ -124,6 +132,22 @@ de-correlated before scoring and the corroboration gate requires agreement acros
 **≥2 distinct independence classes**. Field risk classes (low / medium / high) set
 the auto-update thresholds; high-risk fields (name, NPI, active status) are never
 updated silently. All weights and thresholds live in `config.py`.
+
+### Source identification (`web_discovery.py`)
+
+The pipeline does not assume HealthLynked already has the practice website URL.
+`WebsiteDiscoverySource` solves that upstream problem: it sends sparse clues
+(provider name, NPI, old/current address, phone, practice name, specialty) to a
+licensed search adapter, scores candidate domains, rejects aggregators, and only
+promotes verified official sites into the normal `practice_web` source class. See
+[`docs/SOURCE_IDENTIFICATION.md`](docs/SOURCE_IDENTIFICATION.md) for the adapter
+contract and evidence rules.
+
+Offline proof:
+
+```bash
+directory-pipeline discover-site --offline --record HL_001 --json
+```
 
 ### Output schema
 
@@ -213,8 +237,9 @@ tests/             Pytest suite
 All settings are optional (see [`.env.example`](.env.example)); the pipeline runs
 offline with zero configuration. Key knobs: `DIRPIPE_OFFLINE`, the source base URLs,
 `DIRPIPE_HTTP_TIMEOUT`, `DIRPIPE_HTTP_RETRIES`, `DIRPIPE_HTTP_CACHE`,
-`DIRPIPE_TAXONOMY_CSV` (point at the full NUCC release), `DIRPIPE_AUDIT_PATH`,
-`DIRPIPE_LOG_LEVEL`.
+`DIRPIPE_WEBSITE_SEARCH_BASE_URL` / `DIRPIPE_WEBSITE_SEARCH_API_KEY` for a licensed
+practice-site discovery proxy, `DIRPIPE_TAXONOMY_CSV` (point at the full NUCC
+release), `DIRPIPE_AUDIT_PATH`, `DIRPIPE_LOG_LEVEL`.
 
 ## Development
 
@@ -238,9 +263,11 @@ The MVP makes deliberate, documented swaps for a lean, installable repo:
   coordinates used for the audit trail and practice-location proximity matching.
 - **Specialty crosswalk** ships a curated NUCC subset (`data/taxonomy_crosswalk.csv`)
   loaded lazily; point `DIRPIPE_TAXONOMY_CSV` at the full official release in prod.
-- **Tier-3 enrichment** (practice website / state board) is fixture-driven here;
-  production dispatches a gated, budget-capped scrape + LLM-extraction agent that
-  only *extracts* from fetched text and must still clear the scoring gate.
+- **Tier-3 enrichment** (practice website / state board) is fixture-driven here, but
+  the official-site discovery seam is wired: point `DIRPIPE_WEBSITE_SEARCH_BASE_URL`
+  at a licensed search/Places proxy that returns candidate URLs in the documented
+  schema. Production then dispatches a gated, budget-capped fetch + LLM-extraction
+  agent that only *extracts* from fetched text and must still clear the scoring gate.
 - **Live API calls** retry with exponential backoff and cache on disk
   (`DIRPIPE_HTTP_*`), so re-runs and the re-verify cadence stay cheap.
 
