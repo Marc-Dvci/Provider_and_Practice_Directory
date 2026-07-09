@@ -9,8 +9,7 @@ source-weighted formula, and routing only genuine conflicts to a human.
 > updates already sit in free, structured government datasets, so the pipeline
 > resolves the bulk of records at ~$0 marginal cost and reserves web scraping,
 > LLMs, and human reviewers for the small residual where structured sources are
-> silent or in conflict. See [`SOLUTION_PLAN.md`](SOLUTION_PLAN.md) for the full
-> architecture, cost model, and validation strategy this code implements.
+> silent or in conflict.
 
 It runs **fully offline** against bundled fixtures (no API keys, no network), so
 the demo, tests, and CI are deterministic; flip one flag to hit the live APIs.
@@ -274,9 +273,7 @@ The MVP makes deliberate, documented swaps for a lean, installable repo:
 ## Data sources
 
 NPPES NPI Registry (API + bulk), CMS Doctors & Clinicians (`mj5m-pzi6`), US Census
-geocoder — all free and authoritative. See SOLUTION_PLAN §4 and §14 for the full
-list, reliability tiers, and the regulatory context (No Surprises Act; REAL Health
-Providers Act).
+geocoder — all free and authoritative.
 
 ## License
 
